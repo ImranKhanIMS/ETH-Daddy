@@ -12,7 +12,15 @@ import ETHDaddy from './abis/ETHDaddy.json'
 // Config
 import config from './config.json';
 
+// tokens convertor
+const tokens = (n) => {
+  return ethers.utils.parseUnits(n.toString(), 'ether')
+}
+
 function App() {
+  const [name, setName] = useState("");
+  const [cost, setCost] = useState("");
+
   const [provider, setProvider] = useState(null)
   const [account, setAccount] = useState(null)
 
@@ -52,6 +60,16 @@ function App() {
     await transaction.wait()
   }
 
+  // Withdraw Balence
+  const listDomain = async () => {
+    // console.log(name,' ', cost);
+    const signer = await provider.getSigner()
+    const transaction = await ethDaddy.connect(signer).list(name, tokens(cost))
+    await transaction.wait()
+
+    loadBlockchainData()
+  }
+
   useEffect(() => {
     loadBlockchainData()
   }, [])
@@ -78,13 +96,19 @@ function App() {
           ))}
         </div>
 
-        <button
-          type='button'
-          className='card__button'
-          onClick={withdrawBalence}
-        >
-          Withdraw All Balence
-        </button>
+            {account == '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'?
+                        <>
+                              <br />
+                          <button type='button' className='card__button' onClick={withdrawBalence}> Withdraw All Balence</button>
+                              <br /> <br />
+
+                          <div>
+                            <input type='text' onChange={(e) => setName(e.target.value)} value={name} />
+                            <input type='text' onChange={(e) => setCost(e.target.value)} value={cost}/>
+                            <button type='button' className='card__button' onClick={listDomain}>Add Domain</button>
+                          </div>
+                        </>
+             : ''}
 
       </div>
 
