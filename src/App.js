@@ -45,12 +45,11 @@ function App() {
     })
   }
 
+  // Withdraw Balence
   const withdrawBalence = async () => {
     const signer = await provider.getSigner()
     const transaction = await ethDaddy.connect(signer).withdraw()
     await transaction.wait()
-
-    loadBlockchainData()
   }
 
   useEffect(() => {
