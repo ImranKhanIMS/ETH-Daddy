@@ -45,6 +45,14 @@ function App() {
     })
   }
 
+  const withdrawBalence = async () => {
+    const signer = await provider.getSigner()
+    const transaction = await ethDaddy.connect(signer).withdraw()
+    await transaction.wait()
+
+    loadBlockchainData()
+  }
+
   useEffect(() => {
     loadBlockchainData()
   }, [])
@@ -70,6 +78,14 @@ function App() {
             <Domain domain={domain} ethDaddy={ethDaddy} provider={provider} id={index+1} key={index} />
           ))}
         </div>
+
+        <button
+          type='button'
+          className='card__button'
+          onClick={withdrawBalence}
+        >
+          Withdraw All Balence
+        </button>
 
       </div>
 
