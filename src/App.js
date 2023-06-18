@@ -60,7 +60,7 @@ function App() {
     await transaction.wait()
   }
 
-  // Withdraw Balence
+  // List Domain
   const listDomain = async () => {
     // console.log(name,' ', cost);
     const signer = await provider.getSigner()
